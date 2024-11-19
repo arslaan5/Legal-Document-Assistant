@@ -5,3 +5,4 @@ django
 django-tailwind[reload]
 PyMySQL
 pinecone-client
+langchain_groq
