@@ -23,7 +23,11 @@ def upload_embeddings():
     for chunk in chunks:
         # Extract text and metadata
         text = chunk.page_content
-        metadata = chunk.metadata if hasattr(chunk, 'metadata') else {}
+        metadata = {
+        "content": chunk.page_content,  # Assuming chunk.page_content holds the actual text content
+        "source": chunk.metadata.get("source", "Unknown source"),  # You can add other fields as needed
+        "page_number": chunk.metadata.get("page_number", "Unknown")  # Add page number or any other metadata
+        }
 
         if text and isinstance(text, str):
             embedding = generate_embedding(text)

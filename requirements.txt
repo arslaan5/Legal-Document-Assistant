@@ -3,5 +3,5 @@ python-dotenv
 sentence_transformers
 django
 django-tailwind[reload]
-pymongo
 PyMySQL
+pinecone-client
