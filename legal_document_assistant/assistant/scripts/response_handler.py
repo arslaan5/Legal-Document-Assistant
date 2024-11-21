@@ -2,8 +2,7 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 import os
-from data_retriever import retrieve_relevant_chunks
-from pprint import pformat
+from .data_retriever import retrieve_relevant_chunks
 
 
 load_dotenv()
@@ -22,6 +21,7 @@ def generate_response(query, relevant_chunks):
     :param relevant_chunks: List of relevant chunks of text.
     :return: Generated response as a string.
     """
+    print(f"Received query (response_handler.py): {query}")
     # Create a prompt using the relevant chunks
     prompt_template = PromptTemplate(
         input_variables=["context", "question"],

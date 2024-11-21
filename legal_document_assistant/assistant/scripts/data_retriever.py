@@ -1,5 +1,5 @@
 from pinecone import Pinecone
-from data_embedder import generate_embedding
+from .data_embedder import generate_embedding
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +12,7 @@ pc = Pinecone(api_key=pinecone_api)
 index = pc.Index("legal-documents-embeddings")
 
 
-def retrieve_relevant_chunks(query, top_k=5):
+def retrieve_relevant_chunks(query, top_k=3):
     """
     Retrieve relevant chunks from Pinecone based on a user query.
     :param query: User's query as a string.
@@ -20,7 +20,10 @@ def retrieve_relevant_chunks(query, top_k=5):
     :return: List of relevant chunks with metadata.
     """
     try:
+        print(f"Received query (data_retriever.py): {repr(query)}")  # Debug log
         # Generate embedding for the query
+        if len(query) < 10:
+            return []
         query_embedding = generate_embedding(query)
         if query_embedding is None:
             raise ValueError("Failed to generate embedding for the query.")

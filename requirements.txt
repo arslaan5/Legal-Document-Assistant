@@ -6,3 +6,5 @@ django-tailwind[reload]
 PyMySQL
 pinecone-client
 langchain_groq
+Markdown
+djangorestframework
