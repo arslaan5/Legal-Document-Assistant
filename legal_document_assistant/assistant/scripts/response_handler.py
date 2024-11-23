@@ -1,8 +1,9 @@
 from langchain_groq import ChatGroq
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate
 from dotenv import load_dotenv
 import os
 from .data_retriever import retrieve_relevant_chunks
+from langchain_core.callbacks import StdOutCallbackHandler
 
 
 load_dotenv()
@@ -11,7 +12,8 @@ groq_api = os.getenv("GROQ_API_KEY")
 llm = ChatGroq(
     api_key=groq_api,
     model="llama-3.1-8b-instant",
-    temperature=0.2
+    temperature=0.2,
+    callbacks=[StdOutCallbackHandler()]
 )
 
 def generate_response(query, relevant_chunks):
@@ -23,21 +25,65 @@ def generate_response(query, relevant_chunks):
     """
     print(f"Received query (response_handler.py): {query}")
     # Create a prompt using the relevant chunks
-    prompt_template = PromptTemplate(
-        input_variables=["context", "question"],
-        template="Use the following context to answer the question:\n{context}\n\nQuestion: {question}"
+
+    system_template = SystemMessagePromptTemplate.from_template("""
+    # Prompt for Legal Law & Rules Assistant
+
+    ## **Clarity**
+    You are a highly skilled and intelligent legal assistant specializing in analyzing and summarizing legal documents.
+
+    ## **Specificity**
+    Your task is to provide accurate and concise answers to user queries by retrieving relevant sections from the provided context of legal documents.
+
+    ## **Context Inclusion**
+    These documents contain clauses and provisions from various legal fields, such as contracts, property law, and intellectual property. Focus only on the retrieved data to craft your response.
+
+    ## **Instruction Precision**
+    Use only the information retrieved from the documents. Do not generate any information that is not directly supported by the text. Try to ignore potential grammatical errors of the user and focus on the content.
+
+    ## **Query Relevance**
+    Ensure your response is highly relevant to the user's query by prioritizing the most pertinent sections retrieved.
+
+    ## **Output Format**
+    Provide your response in a structured format using markdown language and markdown syntex where needed. Keep the response brief. Also cite relevant sections or clauses where available and required.
+
+    ## **Length Control**
+    The summary should not exceed 250 words, and the overall response should remain focused and concise.
+
+    ## **Response Tone**
+    Maintain a professional and formal tone suitable for legal communication.
+
+    ## **Error Handling**
+    If no relevant information is available in the documents, respond with:
+    *"No relevant information found in the provided documents."*
+
+    ## **Irrelevant Queries**
+    If the query is not related to the provided documents, respond with:
+    *"The query is not related to the any legal concerns as per my knowledge base."*
+
+    ---
+
+    **Context:**
+    {context}
+    """)
+
+    prompt = ChatPromptTemplate.from_messages([
+        system_template,
+        ("human", "{query}")
+        ]
     )
-    
+
     context = "\n\n".join([chunk['content'] for chunk in relevant_chunks])
-    prompt = prompt_template.format(context=context, question=query)
+    
+    chain = prompt | llm
     
     # Generate the response
-    response = llm.invoke(prompt)
-    return response
+    response = chain.invoke({"query":query, "context":context})
+    return response.content
 
 
 if __name__ == "__main__":
     query = "What is the legal procedure for filing a family court case?"
-    relevant_chunks = retrieve_relevant_chunks(query, top_k=10)
+    relevant_chunks = retrieve_relevant_chunks(query)
     result = generate_response(query, relevant_chunks)
-    print(result.content)
+    print(result)

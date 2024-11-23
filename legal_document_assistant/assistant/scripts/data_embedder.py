@@ -1,7 +1,5 @@
 from sentence_transformers import SentenceTransformer
-import os
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
@@ -17,17 +15,19 @@ def generate_embedding(text):
     """Generate an embedding for the provided text."""
     try:
         print("Recieved text (data_embedder.py): ", text)
-        if not model:
-            raise RuntimeError("Embedding model is not loaded.")
-        if not text or not isinstance(text, str):
-            raise ValueError("Invalid text input for embedding generation.")
+        if not isinstance(text, str):
+            raise ValueError("Input must be a string.")
+        if not text:
+            raise ValueError("Input cannot be None or empty.")
         if text.strip() == "":
-            raise ValueError("Text cannot be empty for embedding generation.")
+            raise ValueError("Input cannot be whitespace only.")
         if len(text) < 10:
-            raise ValueError("Text must be at least 10 characters long for embedding generation.")
+            raise ValueError("Input must be at least 10 characters long.")
         
-        result = model.encode(text, show_progress_bar=True)
-        
+        try:
+            result = model.encode(text, show_progress_bar=True)
+        except Exception as e:
+            raise RuntimeError(f"An error occurred during embedding generation: {e}")
         return result
     except Exception as e:
         print(f"Error generating embedding: {e}")
