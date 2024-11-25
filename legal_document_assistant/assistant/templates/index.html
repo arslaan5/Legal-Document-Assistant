@@ -7,117 +7,127 @@
     <title>Your Legal Advisor</title>
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body class="bg-gray-100 p-4">
+  <body class="bg-[#f5f5f5]">
     <div
-      class="max-w-full h-[calc(100vh-5vh)] mx-auto bg-white p-2 md:p-6 rounded-lg shadow-lg"
+      class="max-w-full mx-auto p-2 md:p-6 roboto-medium relative"
     >
-      <h1 class="text-lg sm:text-2xl font-bold text-center mb-4">
+      <h1
+        class="text-lg sm:text-4xl font-bold text-center mb-4 p-2 bg-[#f5f5f5] merriweather-bold sticky top-0 left-0"
+      >
         Legal Document Assistant
       </h1>
+
+      {% if conversation|length == 0 %}
+      <div id="noMessagesText" class="text-center text-gray-500 my-4">
+        Get your first legal advice.
+      </div>
+      {% endif %}
 
       <!-- Chat History -->
       <div
         id="chatHistory"
-        class="chat-history overflow-y-auto max-h-96 md:max-h-[30rem] mb-2 overscroll-auto"
+        class="chat-history overflow-y-auto h-[70vh] w-11/12 sm:w-9/12 mx-auto md:max-h-[70vh] mb-2 overscroll-auto scroll-smooth scrollbar-hide"
       >
         {% for message in conversation %}
-        <div class="mb-4 flex">
+        <div class="messages mb-4 flex justify-between">
           {% if message.role == "user" %}
           <!-- User Query -->
           <div
-            class="text-xs md:text-base bg-red-50 p-2 sm:p-4 rounded-lg text-gray-800 ml-auto max-w-xl sm:max-w-3xl"
+            class="text-xs md:text-lg text-[#0A0A0A] p-2 sm:p-4 rounded-lg ml-auto max-w-xl sm:max-w-3xl"
           >
             <strong>User:</strong> {{ message.content }}
           </div>
           {% elif message.role == "assistant" %}
           <!-- Assistant Response -->
-          <!-- <div
-            class="text-xs md:text-base bg-blue-50 p-2 sm:p-4 rounded-lg text-gray-800 my-2 ml-0 max-w-2xl sm:max-w-4xl"
-          > -->
           <div
-            class="text-xs md:text-base prose space-y-2 bg-blue-50 p-2 sm:p-4 rounded-lg text-gray-800 my-2 ml-0 max-w-2xl sm:max-w-4xl"
+            class="text-xs md:text-base prose space-y-2 p-2 sm:p-4 rounded-lg text-[#001F54] my-2 ml-0 max-w-2xl sm:max-w-3xl"
           >
             <strong>Assistant:</strong> {{ message.content|safe }}
           </div>
-          <!-- </div> -->
           {% endif %}
         </div>
         {% endfor %}
       </div>
 
-      <!-- Loader -->
-      <div id="loader" class="loader m-4 max-w-min bg-transparent">
-        <div class="flex-col gap-4 flex items-center justify-center">
-          <div
-            class="w-8 h-8 md:w-16 md:h-16 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
-          >
-            <div
-              class="w-4 h-4 md:w-12 md:h-12 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
-            ></div>
+      <div class="sticky bottom-0 left-0">
+        <!-- Query Form -->
+        <form id="chatForm" method="POST">
+          {% csrf_token %}
+          <!-- Loader -->
+          <div id="loader" class="loader mx-auto bg-transparent">
+            <div class="flex-col gap-4 flex items-center justify-center">
+              <div
+                class="w-8 h-8 md:w-12 md:h-12 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
+              >
+                <div
+                  class="w-4 h-4 md:w-9 md:h-9 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
+                ></div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Query Form -->
-      <form id="chatForm" method="POST">
-        {% csrf_token %}
-        <div>
           <div
-            class="flex flex-col-reverse sm:flex-row justify-around items-center mb-4"
+            class="flex justify-around items-center w-11/12 sm:w-9/12 mx-auto my-2"
           >
             <textarea
               id="queryInput"
               name="query"
-              class="w-full h-12 sm:w-11/12 px-2 py-1 border rounded-lg"
+              class="w-screen h-fit sm:h-12 sm:w-11/12 px-2 py-1 border rounded-lg mx-auto text-sm"
               placeholder="Ask a legal question..."
               required
             ></textarea>
-            <div class="bg-transparent sticky max-w-min z-10">
-              <button
-                type="button"
-                onclick="scrollToBottom()"
-                class="cursor-pointer sticky w-28 flex text-center text-xs sm:text-sm bg-gray-800 px-2 py-2 m-2 rounded-full text-white tracking-wider shadow-xl hover:bg-gray-900 hover:scale-105 duration-500 hover:ring-1 font-mono"
+  
+            <button
+              type="button"
+              onclick="scrollToBottom()"
+              class="cursor-pointer -translate-y-16 translate-x-2 md:-translate-y-20 md:translate-x-0 flex bg-gray-800 px-2 py-2 rounded-full text-white tracking-wider drop-shadow-2xl hover:bg-gray-900 hover:scale-105 duration-200 hover:ring-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-4 sm:w-6 h-4 sm:h-6"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-8 h-6 pt-1 animate-bounce"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
-                  ></path>
-                </svg>
-                Go down
-              </button>
-            </div>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                ></path>
+              </svg>
+            </button>
+            <button
+              type="submit"
+              class="rounded-md text-white -translate-x-4 sm:-translate-x-8"
+            >
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA3UlEQVR4nO3WMWpCQRRG4Q9MYxkhha4ikMI9CJbpFFK5CKtsIWV6K9tsIKIpXIEoaJlCsLOzMAgvYCEhT525jT9MOZwzlzszl1sC84UZuqjkBG+wL9Y8p8D0CPy7VujhLiV4cAKcReD1D3BSgc4/wEkEmiXAVxWonQG+WOABwwvAZwk8Y30FaGmBKhp4QrvYcOjwt6IKEyyxi+qBCup4RAsv6B8JjrHA9oTAKAr8WabU7/hIWeo2viOa65D74oRZr1PoAxL6ZHZyA8O/xUFuYPjos4ka9sZR4+0tUuQHPT4UVVhjZqUAAAAASUVORK5CYII="
+                alt="sent"
+              />
+            </button>
           </div>
+        </form>
+        <!-- Button to end session -->
+        <form
+          action="{% url 'end_session' %}"
+          method="get"
+          class="flex justify-end my-2 w-full"
+        >
           <button
             type="submit"
-            class="w-full h-8 rounded-md bg-blue-500 text-white p-0"
+            class="w-fit text-sm bg-red-500 text-white p-2 rounded"
           >
-            Submit
+            End Session
           </button>
-        </div>
-      </form>
-      <!-- Button to end session -->
-      <form
-        action="{% url 'end_session' %}"
-        method="get"
-        class="flex justify-end my-2 w-full"
-      >
-        <button
-          type="submit"
-          class="w-fit text-sm bg-red-500 text-white p-2 rounded"
-        >
-          End Session
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
     <script src="{% static '../static/script.js' %}"></script>
   </body>

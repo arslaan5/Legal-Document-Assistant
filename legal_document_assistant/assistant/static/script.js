@@ -1,157 +1,92 @@
-const chatForm = document.getElementById('chatForm');
-const chatHistory = document.getElementById('chatHistory');
-const queryInput = document.getElementById('queryInput');
+// Ensure placeholder visibility on page load
+document.addEventListener('DOMContentLoaded', () => {
+  toggleNoMessagesText(); // Initial check
+  scrollToBottom(); // Scroll to the latest message
+  const loader = document.getElementById('loader');
+  if (loader) loader.style.display = "none"; // Hide loader initially
+});
+
+const chatForm = document.getElementById("chatForm");
+const chatHistory = document.getElementById("chatHistory");
+const queryInput = document.getElementById("queryInput");
 const loader = document.getElementById("loader");
 
 function scrollToBottom() {
-    chatHistory.scrollTop = chatHistory.scrollHeight;
+  chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
-chatForm.addEventListener('submit', async (e) => {
+// Function to toggle the placeholder text
+function toggleNoMessagesText() {
+  const chatHistory = document.getElementById('chatHistory');
+  const noMessagesText = document.getElementById('noMessagesText');
 
-    e.preventDefault(); // Prevent default form submission
-    loader.style.display = "block"; // Show the loader
+  if (!chatHistory || !noMessagesText) return; // Exit if elements are missing
 
-    const formData = new FormData(chatForm);
-    const csrfToken = formData.get('csrfmiddlewaretoken');
+  const hasMessages = chatHistory.children.length > 0;
 
-    // Send AJAX request
-    try {
-        const response = await fetch(chatForm.action, {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': csrfToken,
-            },
-            body: formData,
-        });
+  if (hasMessages) {
+    noMessagesText.style.display = "none"; // Hide placeholder
+  } else {
+    noMessagesText.style.display = "block"; // Show placeholder
+  }
+}
 
-        if (response.ok) {
-            const data = await response.json();
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // Prevent default form submission
+  loader.style.display = "block"; // Show the loader
 
-            // Append user query
-            chatHistory.innerHTML += `
-                <div class="mb-4 flex">
-                    <div class="text-xs md:text-base bg-red-50 p-2 sm:p-4 rounded-lg text-gray-800 ml-auto max-w-3xl">
-                        <strong>User:</strong> ${data.user_message.content}
-                    </div>
-                </div>`;
+  const formData = new FormData(chatForm);
+  const csrfToken = formData.get("csrfmiddlewaretoken");
 
-            // Append assistant response
-            chatHistory.innerHTML += `
-                <div class="mb-4 flex">
-                    <div class="text-xs md:text-base prose space-y-2 bg-blue-50 p-2 sm:p-4 rounded-lg text-gray-800 my-2 ml-0 max-w-4xl">
-                        <strong>Assistant:</strong> ${data.assistant_message.content}
-                    </div> 
-                </div>`;
+  // Send AJAX request
+  try {
+    const response = await fetch(chatForm.action, {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": csrfToken,
+      },
+      body: formData,
+    });
 
-            scrollToBottom();
+    if (response.ok) {
+      const data = await response.json();
 
-            // Clear input
-            queryInput.value = '';
-        } else {
-            alert('Failed to fetch a response. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
-    } 
+      // Append user query
+      chatHistory.innerHTML += `
+            <div class="mb-4 flex justify-between">
+                <div class="text-xs md:text-lg text-[#0A0A0A] p-2 sm:p-4 rounded-lg ml-auto max-w-xl sm:max-w-3xl">
+                    <strong>User:</strong> ${data.user_message.content}
+                </div>
+            </div>`;
+          console.log(chatHistory.innerHTML); // Debugging: Check current chat content
+
+      // Append assistant response
+      chatHistory.innerHTML += `
+            <div class="mb-4 flex justify-between">
+                <div class="text-xs md:text-base prose space-y-2 p-2 sm:p-4 rounded-lg text-[#001F54] my-2 ml-0 max-w-2xl sm:max-w-3xl">
+                    <strong>Assistant:</strong> ${data.assistant_message.content}
+                </div>
+            </div>`;
+          console.log(chatHistory.innerHTML); // Debugging: Check after assistant's response
+
+      // Update placeholder visibility
+      toggleNoMessagesText();
+
+      scrollToBottom();
+
+      // Clear input
+      queryInput.value = "";
+    } else {
+      alert("Failed to fetch a response. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred. Please try again.");
+  } finally {
     loader.style.display = "none";
+  }
 });
 
 // Scroll to the latest message after page load
 scrollToBottom();
-
-
-// function scrollToBottom() {
-//     chatHistory.scrollTop = chatHistory.scrollHeight;
-//   }
-
-// chatForm.addEventListener('submit', async (e) => {
-
-//     e.preventDefault(); // Prevent default form submission
-//     loader.style.display = "block"; // Show the loader
-
-//     const formData = new FormData(chatForm);
-//     const csrfToken = formData.get('csrfmiddlewaretoken');
-
-//     // Send AJAX request
-//     try {
-//         const response = await fetch(chatForm.action, {
-//             method: 'POST',
-//             headers: {
-//                 'X-Requested-With': 'XMLHttpRequest',
-//                 'X-CSRFToken': csrfToken,
-//             },
-//             body: formData,
-//         });
-
-//         if (response.ok) {
-//             const data = await response.json();
-
-//             // Append user query
-//             chatHistory.innerHTML += 
-//                 <div class="mb-4">
-//                     <div class="bg-blue-100 p-3 rounded-lg text-gray-800">
-//                         <strong>User:</strong> ${data.user_message.content}
-//                     </div>
-//                 </div>;
-
-//             // Append assistant response
-//             chatHistory.innerHTML += 
-//                 <div class="mb-4">
-//                     <div class="bg-gray-100 p-3 rounded-lg text-gray-800 mt-2">
-//                         <strong>Assistant:</strong> ${data.assistant_message.content}
-//                     </div>
-//                 </div>;
-
-//             scrollToBottom();
-
-//             // Clear input
-//             queryInput.value = '';
-//         } else {
-//             alert('Failed to fetch a response. Please try again.');
-//         }
-//     } catch (error) {
-//         console.error('Error:', error);
-//         alert('An error occurred. Please try again.');
-//     } 
-//     loader.style.display = "none"
-// });
-
-// Scroll to the latest message
-scrollToBottom();
-
-// const loader = document.getElementById("loader");
-// const form = document.getElementById("chatForm");
-
-// form.addEventListener("submit", async (event) => {
-//     event.preventDefault(); // Prevent form from reloading the page
-//     loader.style.display = "block"; // Show the loader
-
-//     const formData = new FormData(form);
-
-//     try {
-//         // Send the form data via fetch API
-//         const response = await fetch(form.action, {
-//             method: "POST",
-//             body: formData,
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Failed to fetch a response');
-//         }
-
-//         const html = await response.text();
-
-//         // Update the chat history with the response HTML
-//         document.body.innerHTML = html;
-//         scrollToBottom();
-//     } catch (error) {
-//         console.error('Error:', error);
-//         alert('An error occurred. Please try again.');
-//     } finally {
-//         loader.style.display = "none"; // Hide the loader
-//     }
-//     scrollToBottom();
-// });

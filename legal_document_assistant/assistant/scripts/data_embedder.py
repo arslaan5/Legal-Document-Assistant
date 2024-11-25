@@ -5,7 +5,7 @@ load_dotenv()
 
 # Load the embedding model
 try:
-    model = SentenceTransformer("jinaai/jina-embeddings-v3", trust_remote_code=True)
+    model = SentenceTransformer("jinaai/jina-embeddings-v3", revision="c445d96389595a6e93b1b63baa69a116a8b4af68", trust_remote_code=True)
 except Exception as e:
     print(f"Error loading the embedding model: {e}")
     model = None

@@ -56,3 +56,7 @@ def end_session(request):
 
     # Redirect to the home page or any other page
     return redirect('index')  # You can change 'home' to any URL name
+
+
+def home_view(request):
+    return render(request, 'home.html')
