@@ -16,7 +16,7 @@
   </head>
   <body>
     <header
-      class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-gray-100 bg-[#001F54] text-[#F5F5F5] merriweather-regular py-3 shadow backdrop-blur-lg md:top-4 md:rounded-2xl lg:max-w-screen-lg"
+      class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md bg-[#001F54] text-[#F5F5F5] merriweather-regular py-3 shadow backdrop-blur-lg md:top-4 md:rounded-2xl lg:max-w-screen-lg"
     >
       <div class="px-4">
         <div class="flex items-center justify-between">
@@ -46,7 +46,7 @@
             >
             <a
               class="inline-block rounded-lg px-2 py-1 text-sm transition-all duration-200 hover:bg-[#F5F5F5] hover:text-[#001F54]"
-              href="#"
+              href="#about"
               >About</a
             >
           </div>
@@ -66,7 +66,7 @@
       </div>
     </header>
 
-    <section id="hero" class="bg-[#dad8d8]">
+    <section id="hero" class="bg-gray-200">
       <div class="container w-svw h-svh flex">
         <div
           class="flex justify-center items-start flex-col gap-8 sm:p-4 ml-2 sm:ml-4 md:ml-8"
@@ -82,34 +82,273 @@
           >
             Get started
           </button>
+          <p class="roboto-light text-xs sm:text-sm">
+            *No AI can replace a lawyer. This chatbot is for informational
+            purposes only.
+          </p>
         </div>
       </div>
     </section>
 
     <section id="features" class="bg-[#F2F3F4]">
-      <div class="container w-svw h-svh">
-        <h1 class="merriweather-bold text-xl sm:text-4xl pt-24 px-4 ml-2">Features</h1>
+      <div class="container min-w-screen min-h-fit mx-auto">
         <div
-          class="flex justify-between items-center flex-col md:flex-row gap-4 sm:p-4 ml-2 sm:ml-4 md:ml-4 mt-4"
+          class="flex justify-between flex-col md:flex-row gap-4 sm:p-4 ml-2 sm:ml-4 md:mx-4"
         >
-          <div class="bg-blue-100 w-full min-h-96 basis-1/3">
-            <h4>Intelligent Legal Assistance</h4>
-            <p>"Smart Solutions for Your Legal Needs"</p>
-            <p></p>
+          <div class="w-full min-h-fit basis-1/3 py-4 px-2">
+            <h4 class="roboto-regular text-2xl md:text-3xl text-center my-2">
+              Intelligent Legal Assistance
+            </h4>
+            <p class="roboto-light-italic text-lg md:text-xl text-center">
+              "Smart Solutions for Your Legal Needs"
+            </p>
+            <p
+              class="my-4 text-base md:text-lg text-left p-2 roboto-light tracking-wide leading-relaxed"
+            >
+              Empower yourself with cutting-edge AI-driven legal assistance
+              designed to simplify complex legal processes. From providing
+              instant answers to your queries and retrieving relevant legal
+              documents to offering actionable insights for dispute resolution,
+              our intelligent system is tailored to meet your unique needs.
+            </p>
           </div>
-          <div class="bg-green-100 w-full min-h-96 basis-1/3">
-            <h4>User-Friendly Interface</h4>
-            <p>"Legal Expertise at Your Fingertips"</p>
-            <p></p>
+          <div class="w-full min-h-fit basis-1/3 py-4 px-2">
+            <h4 class="roboto-regular text-2xl md:text-3xl text-center my-2">
+              User-Friendly Interface
+            </h4>
+            <p class="roboto-light-italic text-lg md:text-xl text-center">
+              "Legal Expertise at Your Fingertips"
+            </p>
+            <p
+              class="my-4 text-base md:text-lg text-left p-2 roboto-light tracking-wide leading-relaxed"
+            >
+              Experience seamless interaction with our intuitive and
+              easy-to-navigate platform. Designed with simplicity in mind, our
+              interface ensures that users of all backgrounds can access expert
+              legal assistance without hassle
+            </p>
           </div>
-          <div class="bg-yellow-100 w-full min-h-96 basis-1/3">
-            <h4>Secure Data Handling</h4>
-            <p>"Your Privacy, Our Priority"</p>
-            <p></p>
+          <div class="w-full min-h-fit basis-1/3 py-4 px-2">
+            <h4 class="roboto-regular text-2xl md:text-3xl text-center my-2">
+              Secure Data Handling
+            </h4>
+            <p class="roboto-light-italic text-lg md:text-xl text-center">
+              "Your Privacy, Our Priority"
+            </p>
+            <p
+              class="my-4 text-base md:text-lg text-left p-2 roboto-light tracking-wide leading-relaxed"
+            >
+              Rest assured that your data is in safe hands. Our platform employs
+              advanced encryption and security protocols to protect your
+              sensitive information. With a strict focus on confidentiality, we
+              ensure your legal queries and personal details remain private,
+              giving you peace of mind while you seek expert assistance.
+            </p>
           </div>
         </div>
       </div>
     </section>
+
+    <section id="about" class="min-h-svh">
+      <!-- Header Section -->
+      <div
+        class="bg-gradient-to-r from-[#001f54] to-[#2E8B57] text-[#F5F5F5] py-16 text-center"
+      >
+        <h1 class="text-4xl font-bold merriweather-black">About Us</h1>
+        <p class="mt-4 text-lg roboto-light">
+          Discover How We Simplify Legal Assistance for You
+        </p>
+      </div>
+
+      <!-- Who We Are Section -->
+      <div class="max-w-6xl mx-auto py-16 px-6 roboto-regular">
+        <h2 class="text-3xl merriweather-bold font-bold text-center">
+          Who We Are
+        </h2>
+        <p class="mt-6 text-center text-gray-600">
+          Our application is designed to revolutionize the way individuals and
+          businesses navigate legal queries. By combining intelligent AI with a
+          user-friendly interface, we provide smart, reliable, and secure
+          solutions tailored to your legal needs.
+        </p>
+        <div class="flex justify-center mt-8">
+          <img
+            src="../static/images/002_resized.jpg"
+            alt="About Us"
+            class="rounded-lg shadow-md"
+          />
+        </div>
+      </div>
+
+      <!-- Our Mission Section -->
+      <div class="bg-gray-100 py-16 roboto-regular">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-3xl merriweather-bold font-bold text-center">
+            Why We Built This App
+          </h2>
+          <p class="mt-6 text-center text-gray-600">
+            We aim to make legal expertise accessible to everyone, removing
+            barriers and creating a bridge between complex legal information and
+            everyday users. Our mission is to empower users with confidence and
+            clarity in their legal decisions.
+          </p>
+          <div class="mt-8 flex justify-center">
+            <img
+              src="../static/images/004_resized.jpg"
+              alt="Our Mission"
+              class="rounded-lg shadow-md"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Features Section -->
+      <div class="max-w-6xl mx-auto py-16 px-6 roboto-regular">
+        <h2 class="text-3xl merriweather-bold font-bold text-center">
+          What Sets Us Apart
+        </h2>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-gray-100 shadow-lg rounded-lg p-6 text-center">
+            <h3 class="text-xl font-bold">Intelligent Legal Assistance</h3>
+            <p class="mt-4 text-gray-600">
+              Smart solutions powered by cutting-edge AI technology.
+            </p>
+          </div>
+          <div class="bg-gray-100 shadow-lg rounded-lg p-6 text-center">
+            <h3 class="text-xl font-bold">User-Friendly Interface</h3>
+            <p class="mt-4 text-gray-600">
+              Designed for ease of use, whether you're a legal expert or a
+              first-time user.
+            </p>
+          </div>
+          <div class="bg-gray-100 shadow-lg rounded-lg p-6 text-center">
+            <h3 class="text-xl font-bold">Secure Data Handling</h3>
+            <p class="mt-4 text-gray-600">
+              Your privacy is our utmost priority.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="bg-gray-100 roboto-regular py-16">
+        <div class="max-w-6xl mx-auto px-6">
+          <h2 class="text-3xl merriweather-bold font-bold text-center">
+            Seamless and Straightforward
+          </h2>
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+              <h3 class="text-xl font-bold">1. Ask a Question</h3>
+              <p class="mt-4 text-gray-600">
+                Type your legal query into our intuitive interface.
+              </p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6">
+              <h3 class="text-xl font-bold">2. Get Insights</h3>
+              <p class="mt-4 text-gray-600">
+                Receive accurate and concise information tailored to your needs.
+              </p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6">
+              <h3 class="text-xl font-bold">3. Take Action</h3>
+              <p class="mt-4 text-gray-600">
+                Use expert insights to make informed legal decisions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action Section -->
+      <div
+        class="max-w-full mx-auto py-8 px-6 roboto-regular flex flex-col justify-center items-center bg-[#001f54] text-[#F5F5F5]"
+      >
+        <h2 class="text-3xl merriweather-bold font-bold text-center">
+          Ready to Get Started?
+        </h2>
+        <p class="mt-6 text-center md:text-lg">
+          Click the button below to meet your personal lawyer for FREE!
+        </p>
+        <button
+          class="bg-[#2E8B57] text-[#F5F5F5] text-lg md:text-xl text-center py-2 px-4 rounded-lg transition-all duration-150 hover:outline hover:outline-[#FFD700] hover:bg-[#216e42] roboto-medium-italic tracking-wide my-4"
+        >
+          Get started
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Top Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- About Us -->
+          <div>
+            <h3 class="text-lg font-semibold text-white">About Us</h3>
+            <p class="mt-4 text-sm">
+              Empowering legal professionals and individuals with intelligent
+              chatbot for a seamless and efficient legal assistance.
+            </p>
+          </div>
+          <!-- Quick Links -->
+          <div>
+            <h3 class="text-lg font-semibold text-white">Quick Links</h3>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li><a href="#hero" class="hover:underline">Home</a></li>
+              <li><a href="#about" class="hover:underline">About</a></li>
+              <li><a href="https://github.com/arslaan5/Legal-Document-Assistant" class="hover:underline">Github</a></li>
+            </ul>
+          </div>
+          <!-- Contact Info -->
+          <div>
+            <h3 class="text-lg font-semibold text-white">Contact Us</h3>
+            <p class="mt-4 text-sm">
+              69 Silicon Valley, California, USA
+            </p>
+            <p class="mt-2 text-sm">
+              Email:
+              <a
+                href="mailto:arslaansiddiqui365@gmail.com"
+                class="hover:underline text-gray-400"
+                >support@legalapp.com</a
+              >
+            </p>
+            <p class="mt-2 text-sm">Phone: +91 98354 12457</p>
+          </div>
+        </div>
+        <!-- Divider -->
+        <div class="border-t border-gray-700 mt-8"></div>
+        <!-- Bottom Section -->
+        <div
+          class="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm"
+        >
+          <p>&copy; 2024 LegalApp. All rights reserved.</p>
+          <div class="mt-4 sm:mt-0">
+            <a href="/" class="hover:underline">Terms of Service</a>
+            <span class="mx-2">|</span>
+            <a href="/" class="hover:underline">Privacy Policy</a>
+          </div>
+          <!-- Social Links -->
+          <div class="mt-4 sm:mt-0 flex space-x-4">
+            <a href="https://www.facebook.com/share/7trMfDfExjghQk8o/?mibextid=qi2Omg" aria-label="Facebook" class="hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0,0,256,256">
+                <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8,8)"><path d="M7,5c-1.09375,0 -2,0.90625 -2,2v18c0,1.09375 0.90625,2 2,2h18c1.09375,0 2,-0.90625 2,-2v-18c0,-1.09375 -0.90625,-2 -2,-2zM7,7h18v18h-5.1875v-6.75h2.59375l0.375,-3h-2.96875v-1.9375c0,-0.875 0.21484,-1.46875 1.46875,-1.46875h1.625v-2.71875c-0.27734,-0.03516 -1.23828,-0.09375 -2.34375,-0.09375c-2.30469,0 -3.875,1.38672 -3.875,3.96875v2.25h-2.625v3h2.625v6.75h-9.6875z"></path></g></g>
+                </svg>
+            </a>
+            <a href="https://x.com/Arslaan_5?t=qpeIgCq4nXSAjRBuIkhM_Q&s=08" aria-label="X" class="hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0,0,256,256">
+                <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8,8)"><path d="M4.01758,4l9.07422,13.60938l-8.75586,10.39063h2.61523l7.29492,-8.65625l5.77148,8.65625h0.53516h7.46289l-9.30273,-13.95703l8.46289,-10.04297h-2.61523l-7.00195,8.31055l-5.54102,-8.31055zM7.75586,6h3.19141l13.33203,20h-3.19141z"></path></g></g>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/arslaan365/" aria-label="LinkedIn" class="hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0,0,256,256">
+                <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8,8)"><path d="M7.5,5c-1.36719,0 -2.5,1.13281 -2.5,2.5v17c0,1.36719 1.13281,2.5 2.5,2.5h17c1.36719,0 2.5,-1.13281 2.5,-2.5v-17c0,-1.36719 -1.13281,-2.5 -2.5,-2.5zM7.5,7h17c0.28516,0 0.5,0.21484 0.5,0.5v17c0,0.28516 -0.21484,0.5 -0.5,0.5h-17c-0.28516,0 -0.5,-0.21484 -0.5,-0.5v-17c0,-0.28516 0.21484,-0.5 0.5,-0.5zM10.4375,8.71875c-0.94922,0 -1.71875,0.76953 -1.71875,1.71875c0,0.94922 0.76953,1.71875 1.71875,1.71875c0.94922,0 1.71875,-0.76953 1.71875,-1.71875c0,-0.94922 -0.76953,-1.71875 -1.71875,-1.71875zM19.46875,13.28125c-1.43359,0 -2.38672,0.78516 -2.78125,1.53125h-0.0625v-1.3125h-2.8125v9.5h2.9375v-4.6875c0,-1.23828 0.24609,-2.4375 1.78125,-2.4375c1.51172,0 1.53125,1.39844 1.53125,2.5v4.625h2.9375v-5.21875c0,-2.55469 -0.54297,-4.5 -3.53125,-4.5zM9,13.5v9.5h2.96875v-9.5z"></path></g></g>
+                </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <script src="{% static '../static/script.js' %}"></script>
   </body>
