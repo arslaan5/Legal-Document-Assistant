@@ -3,8 +3,14 @@ from django.http import JsonResponse
 from .scripts.data_retriever import retrieve_relevant_chunks
 from .scripts.response_handler import generate_response
 from markdown import markdown
+from .forms import UserRegistrationForm, UserLoginForm
+from django.contrib.auth.hashers import make_password
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def query_view(request):
     if "conversation" not in request.session:
         # Initialize conversation history in the session
@@ -49,7 +55,7 @@ def query_view(request):
 
     return render(request, "index.html", {"conversation": request.session["conversation"]})
 
-
+@login_required
 def end_session(request):
     # Manually clear the session data
     request.session.flush()
@@ -60,3 +66,43 @@ def end_session(request):
 
 def home_view(request):
     return render(request, 'home.html')
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            # Hash the password before saving
+            user = form.save(commit=False)
+            user.password = make_password(form.cleaned_data['password'])
+            user.save()
+            messages.success(request, 'Registration successful! You can now log in.')
+            return redirect('login')
+        else:
+            # If the form is not valid, show error messages
+            messages.error(request, 'Error in registraion.')
+    else:
+        form = UserRegistrationForm()
+
+    return render(request, 'register.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Successfully logged in!')
+                return redirect('index')
+            else:
+                messages.error(request, 'Invalid credentials')
+        else:
+            messages.error(request, 'Form is not valid')
+    else:
+        form = UserLoginForm()
+
+    return render(request, 'login.html', {'form': form})
