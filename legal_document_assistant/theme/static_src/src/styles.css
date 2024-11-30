@@ -44,6 +44,18 @@ html {
   }
 }
 
+dialog {
+  width: 90%;
+  max-width: 400px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .merriweather-light {
   font-family: "Merriweather", serif;
   font-weight: 300;

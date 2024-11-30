@@ -16,7 +16,7 @@
   </head>
   <body class="bg-gray-200">
     <div class="max-w-full mx-auto p-2 roboto-medium relative">
-      <div class="flex justify-between items-center my-2 w-full">
+      <div class="flex justify-between items-center w-full mb-24">
         <!-- Back Button -->
         <header
           class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md bg-[#001F54] text-[#F5F5F5] merriweather-regular py-3 shadow backdrop-blur-lg md:top-4 md:rounded-2xl lg:max-w-screen-lg"
@@ -44,38 +44,62 @@
                 >
               </div>
               <div class="flex items-center justify-end gap-3">
-                <a
-                  class="items-center justify-center rounded-xl bg-[#F5F5F5] px-3 py-2 text-sm sm:merriweather-regular roboto-bold text-[#001F54] shadow-sm ring-2 ring-[#2E8B57] transition-all duration-150 hover:bg-gray-300 sm:inline-flex"
-                  href="{% url 'logout' %}"
-                  >Logout</a
+                <button
+                  id="logoutButton"
+                  type="submit"
+                  class="items-center justify-center rounded-xl bg-[#ED2939] px-3 py-2 text-sm sm:merriweather-regular text-gray-50 shadow-sm ring-2 transition-all duration-150 hover:bg-[#E60026] sm:inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2e8b57]"
                 >
-                <a
-                  href="{% url 'end_session' %}"
-                  class="inline-flex items-center justify-center rounded-xl bg-[#ED1B24] px-3 py-2 text-sm sm:merriweather-regular roboto-regular text-gray-50 shadow-sm transition-all duration-150 hover:bg-[#A91101] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2e8b57]"
-                  >Clear Chat</a
-                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
         </header>
       </div>
 
-      <h1
-        class="text-lg sm:text-4xl font-bold text-center mt-10 sm:mt-16 mb-2 p-2 merriweather-bold sticky top-0 left-0"
-      >
-        Legal Document Assistant
-      </h1>
-
       {% if conversation|length == 0 %}
-      <div id="noMessagesText" class="text-center text-gray-500 my-4">
+      <div id="noMessagesText" class="text-center text-gray-500 my-2">
         Get your first legal advice.
       </div>
       {% endif %}
 
+      <!-- Custom Confirmation Dialog -->
+      <dialog
+        id="confirmDialog"
+        class="rounded-lg border bg-white p-4 shadow-md roboto-regular"
+      >
+        <p class="text-gray-700 font-semibold mb-4">
+          Are you sure you want to logout?
+        </p>
+        <p class="text-red-600 font-semibold mb-4">
+          Logging out will clear ALL YOUR CHATS.
+        </p>
+        <form method="POST" action="{% url 'logout' %}" id="logoutForm">
+          {% csrf_token %}
+
+          <div class="flex justify-end gap-2">
+            <button
+              type="submit"
+              id="confirmLogoutButton"
+              class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 roboto-regular"
+            >
+              Yes, Logout
+            </button>
+            <button
+              type="button"
+              id="cancelLogoutButton"
+              class="px-3 py-2 bg-[#2E8B57] text-white rounded-lg hover:bg-[#167a42]"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </dialog>
+
       <!-- Chat History -->
       <div
         id="chatHistory"
-        class="chat-history overflow-y-auto h-[70vh] w-11/12 sm:w-9/12 mx-auto md:max-h-[70vh] mb-8 overscroll-auto scroll-smooth scrollbar-hide outline rounded-md outline-[#E6A817] outline-2 bg-[#F5F5F5]"
+        class="chat-history overflow-y-auto h-[70vh] w-11/12 sm:w-9/12 mx-auto md:max-h-[70vh] mb-8 mt-8 overscroll-auto scroll-smooth scrollbar-hide outline rounded-md outline-[#E6A817] outline-2 bg-[#F5F5F5]"
       >
         {% for message in conversation %}
         <div class="messages mb-4 flex justify-between">
@@ -128,7 +152,7 @@
             <button
               type="button"
               onclick="scrollToBottom()"
-              class="cursor-pointer flex bg-[#001f54] px-2 py-2 rounded-full text-white tracking-wider drop-shadow-2xl hover:bg-gray-900 hover:scale-105 duration-200 hover:ring-1 fixed right-8 bottom-28 md:right-20 md:bottom-20 lg:-translate-y-16 lg:-translate-x-40"
+              class="cursor-pointer flex bg-[#001f54] px-2 py-2 rounded-full text-white tracking-wider drop-shadow-2xl hover:bg-gray-900 hover:scale-105 duration-200 hover:ring-1 fixed right-8 bottom-32 md:right-28 md:bottom-32 lg:-translate-y-8 lg:-translate-x-12 xl:-translate-y-8 xl:-translate-x-28"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -160,5 +184,27 @@
       </div>
     </div>
     <script src="{% static '../static/script.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const logoutButton = document.getElementById("logoutButton");
+        const confirmDialog = document.getElementById("confirmDialog");
+        const cancelLogoutButton =
+          document.getElementById("cancelLogoutButton");
+
+        if (logoutButton) {
+          // Show dialog when logout button is clicked
+          logoutButton.addEventListener("click", function () {
+            confirmDialog.showModal();
+          });
+        }
+
+        if (cancelLogoutButton) {
+          // Cancel the logout action
+          cancelLogoutButton.addEventListener("click", function () {
+            confirmDialog.close(); // Close the dialog
+          });
+        }
+      });
+    </script>
   </body>
 </html>

@@ -6,7 +6,7 @@ from markdown import markdown
 from .forms import UserRegistrationForm, UserLoginForm
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
 
@@ -91,17 +91,13 @@ def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, 'Successfully logged in!')
-                return redirect('index')
-            else:
-                messages.error(request, 'Invalid credentials')
+            # User is authenticated and validated
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
         else:
-            messages.error(request, 'Form is not valid')
+            # Form is invalid or authentication failed
+            messages.error(request, 'Invalid username or password')
     else:
         form = UserLoginForm()
 
