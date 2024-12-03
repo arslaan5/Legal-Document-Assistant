@@ -37,6 +37,7 @@ class UserInfo(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # Required for admin access
     is_superuser = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
     objects = UserInfoManager()
 

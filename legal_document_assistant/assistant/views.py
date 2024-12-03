@@ -8,6 +8,18 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.shortcuts import get_object_or_404
+from .models import UserInfo
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 @login_required
@@ -55,17 +67,54 @@ def query_view(request):
 
     return render(request, "index.html", {"conversation": request.session["conversation"]})
 
-@login_required
-def end_session(request):
-    # Manually clear the session data
-    request.session.flush()
-
-    # Redirect to the home page or any other page
-    return redirect('index')  # You can change 'home' to any URL name
-
 
 def home_view(request):
     return render(request, 'home.html')
+
+
+def send_verification_email(request, user):
+    """Send a verification email to the user."""
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    verification_url = request.build_absolute_uri(
+        reverse('verify_email', args=[uid, token])
+    )
+
+    subject = 'Verify Your Email Address'
+    message = f"""
+    Hi {user.username},
+    
+    Please click the link below to verify your email address and activate your account:
+    {verification_url}
+    
+    If you did not sign up for this account, you can ignore this email.
+    """
+
+    send_mail(
+        subject,
+        message,
+        os.getenv('EMAIL_HOST_USER'),  
+        [user.email],
+    )
+
+
+def verify_email(request, uidb64, token):
+    """Verify the user's email address."""
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = get_object_or_404(UserInfo, pk=uid)
+    except (TypeError, ValueError, OverflowError, UserInfo.DoesNotExist):
+        user = None
+
+    if user and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.is_verified = True
+        user.save()
+        messages.success(request, 'Your email has been verified! You can now log in.')
+        return redirect('login')
+    else:
+        messages.error(request, 'Invalid or expired verification link.')
+        return redirect('home')
 
 
 def register_view(request):
@@ -75,8 +124,13 @@ def register_view(request):
             # Hash the password before saving
             user = form.save(commit=False)
             user.password = make_password(form.cleaned_data['password'])
+            user.is_active = False
             user.save()
-            messages.success(request, 'Registration successful! You can now log in.')
+
+            # Send verification email
+            send_verification_email(request, user)
+
+            messages.success(request, 'Registration successful! Please verify your email to activate your account.')
             return redirect('login')
         else:
             # If the form is not valid, show error messages
@@ -91,13 +145,17 @@ def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            # User is authenticated and validated
             user = form.get_user()
+            if not user.is_active:  # Check if the user has verified their email
+                messages.error(request, 'Your email is not verified. Please check your inbox and verify your email before logging in.')
+                return redirect('login')
+            
+            # User is authenticated and email is verified
             login(request, user)
             return redirect('index')
         else:
             # Form is invalid or authentication failed
-            messages.error(request, 'Invalid username or password')
+            messages.error(request, 'Invalid username or password.')
     else:
         form = UserLoginForm()
 

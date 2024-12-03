@@ -22,6 +22,12 @@ function toggleNoMessagesText() {
   }
 }
 
+function escapeHtml(unsafe) {
+  const div = document.createElement('div');
+  div.textContent = unsafe;
+  return div.innerHTML;
+}
+
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const loader = document.getElementById('loader');
@@ -31,7 +37,7 @@ chatForm.addEventListener("submit", async (e) => {
   const csrfToken = formData.get("csrfmiddlewaretoken");
 
   try {
-    const response = await fetch(chatForm.action, {
+      const response = await fetch(chatForm.action, {
       method: "POST",
       headers: {
         "X-Requested-With": "XMLHttpRequest",
@@ -42,8 +48,9 @@ chatForm.addEventListener("submit", async (e) => {
 
     if (response.ok) {
       const data = await response.json();
+
+      // Escape the HTML for safe rendering
       const userMessage = escapeHtml(data.user_message.content);
-      const assistantMessage = escapeHtml(data.assistant_message.content);
 
       chatHistory.innerHTML += `
             <div class="mb-4 flex justify-between">
@@ -55,7 +62,7 @@ chatForm.addEventListener("submit", async (e) => {
       chatHistory.innerHTML += `
             <div class="mb-4 flex justify-between">
                 <div class="text-xs md:text-base prose space-y-2 p-2 sm:p-4 rounded-lg text-[#001F54] my-2 ml-0 max-w-2xl sm:max-w-3xl">
-                    <strong>Assistant:</strong> ${assistantMessage}
+                    <strong>Assistant:</strong> ${data.assistant_message.content}
                 </div>
             </div>`;
 
@@ -72,9 +79,3 @@ chatForm.addEventListener("submit", async (e) => {
     if (loader) loader.style.display = "none";
   }
 });
-
-function escapeHtml(unsafe) {
-  const div = document.createElement('div');
-  div.textContent = unsafe;
-  return div.innerHTML;
-}

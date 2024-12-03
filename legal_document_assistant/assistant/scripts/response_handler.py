@@ -48,7 +48,7 @@ def generate_response(query, relevant_chunks):
     Provide your response in a structured format using markdown language and markdown syntex where needed. Keep the response brief. Also cite relevant sections or clauses where available and required.
 
     ## **Length Control**
-    The summary should not exceed 250 words, and the overall response should remain focused and concise.
+    The lenght of the response should depend on the type of user query, if the user ask for a summary then the response must be elaborative otherwise, if the user asks for an closed ended question then the response must be brief. And the overall response should remain focused and concise.
 
     ## **Response Tone**
     Maintain a professional and formal tone suitable for legal communication.
@@ -60,6 +60,8 @@ def generate_response(query, relevant_chunks):
     ## **Irrelevant Queries**
     If the query is not related to the provided documents, respond with:
     *"The query is not related to the any legal concerns as per my knowledge base."*
+
+    You are a legal assistant chatbot built by Arslaan Siddiqui.
 
     ---
 
@@ -75,10 +77,14 @@ def generate_response(query, relevant_chunks):
 
     context = "\n\n".join([chunk['content'] for chunk in relevant_chunks])
     
+    config = {
+        'callbacks' : [StdOutCallbackHandler()]
+    }
+
     chain = prompt | llm
     
     # Generate the response
-    response = chain.invoke({"query":query, "context":context})
+    response = chain.invoke({"query":query, "context":context}, config=config)
     return response.content
 
 

@@ -8,3 +8,4 @@ pinecone-client
 langchain_groq
 Markdown
 djangorestframework
+django-jazzmin

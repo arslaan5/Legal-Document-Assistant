@@ -78,26 +78,25 @@
             </button>
           </form>
           {% if messages %}
-              <ul>
-                  {% for message in messages %}
-                      <li class="text-yellow-500 my-4">{{ message }}</li>
-                  {% endfor %}
-              </ul>
-          {% endif %}
-
+          <ul>
+            {% for message in messages %}
+            <li class="text-yellow-500 my-4">{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %} 
           {% if form.errors %}
-              <ul>
-                  {% for field in form %}
-                      {% if field.errors %}
-                          <li class="text-gray-900">
-                              <strong class="font-medium">{{ field.label }}</strong>: 
-                              {% for error in field.errors %}
-                                  <p class="text-red-500">{{ error }}</p>
-                              {% endfor %}
-                          </li>
-                      {% endif %}
-                  {% endfor %}
-              </ul>
+          <ul>
+            {% for field in form %} 
+            {% if field.errors %}
+            <li class="text-gray-900">
+              <strong class="font-medium">{{ field.label }}</strong>: 
+              {% for error in field.errors %}
+              <p class="text-red-500">{{ error }}</p>
+              {% endfor %}
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
           {% endif %}
 
           <!-- Footer Links -->
@@ -112,5 +111,19 @@
         </div>
       </div>
     </div>
+    <script>
+      const csrfToken = document.querySelector(
+        "[name=csrfmiddlewaretoken]"
+      ).value;
+
+      fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken, // Include the CSRF token here
+        },
+        body: JSON.stringify(data),
+      })
+    </script>
   </body>
 </html>
