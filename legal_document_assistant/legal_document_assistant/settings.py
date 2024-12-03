@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +46,6 @@ INSTALLED_APPS = [
     'theme',
     'django_browser_reload',
     'rest_framework',
-    'jazzmin',
 ]
 
 TAILWIND_APP_NAME = 'theme'

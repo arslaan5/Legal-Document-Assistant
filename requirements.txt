@@ -1,4 +1,5 @@
-ragstack-ai
+langchain
+langchain-community
 python-dotenv
 sentence_transformers
 django
@@ -9,3 +10,4 @@ langchain_groq
 Markdown
 djangorestframework
 django-jazzmin
+einops
