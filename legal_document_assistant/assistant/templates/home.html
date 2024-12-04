@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Legal Assistant - Your personal legal advisor</title>
+    <title>LexiAssist - Your personal legal advisor</title>
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,6 +12,11 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'images\favicon.png' %}"
     />
   </head>
   <body>
@@ -53,10 +58,14 @@
           <div class="flex items-center justify-end gap-3">
             {% if user.is_authenticated %}
             <span
-              class="inline-flex items-center justify-center rounded-xl bg-[#2E8B57] px-4 py-2 text-sm text-[#F5F5F5] shadow-sm"
+              class="flex flex-wrap items-center justify-center rounded-xl bg-[#2E8B57] p-2 sm:px-4 sm:py-2 text-sm text-[#F5F5F5] shadow-sm"
             >
               Welcome,
-              <span class="ml-1 font-semibold"> {{ user.username }} </span>
+              <span
+                class="ml-1 font-semibold tracking-wide underline underline-offset-2"
+              >
+                {{ user.username }}
+              </span>
             </span>
             <button
               class="items-center justify-center rounded-xl bg-[#F5F5F5] px-3 py-2 text-sm sm:merriweather-regular roboto-bold text-[#001F54] shadow-sm ring-2 ring-[#2E8B57] transition-all duration-150 hover:bg-gray-300 sm:inline-flex"
@@ -115,29 +124,30 @@
       </form>
     </dialog>
 
-    <section id="hero" class="bg-gray-200 py-16">
+    <section id="hero" class="bg-gray-200 py-12">
       <div class="container w-svw h-svh flex">
         <div
           class="flex justify-center items-start flex-col gap-8 sm:p-4 ml-2 sm:ml-4 md:ml-8"
         >
-          <h1 class="merriweather-bold text-2xl sm:text-5xl">
+          <h1 class="merriweather-bold text-4xl sm:text-5xl">LexiAssist.</h1>
+          <h2 class="merriweather-regular text-lg sm:text-3xl">
             Your Legal Assistant, Simplified.
-          </h1>
-          <h3 class="roboto-regular w-3/4 text-sm sm:text-xl text-[#666666]">
+          </h2>
+          <p class="roboto-regular text-sm sm:text-xl text-[#666666]">
             Providing fast, accurate answers to your legal queries.
-          </h3>
+          </p>
           <form
             action="{% if user.is_authenticated %}{% url 'index' %}{% else %}{% url 'register' %}{% endif %}"
             method="GET"
           >
             {% csrf_token %}
             <button
-              class="bg-[#2E8B57] text-[#F5F5F5] text-lg py-2 px-4 rounded-lg transition-all duration-150 hover:outline hover:outline-[#FFD700] hover:bg-[#216e42] mt-12 mb-4 mx-2 roboto-medium-italic tracking-wide"
+              class="bg-[#2E8B57] text-[#F5F5F5] text-lg py-2 px-4 rounded-lg transition-all duration-150 hover:outline hover:outline-[#FFD700] hover:bg-[#216e42] mx-2 roboto-medium-italic tracking-wide"
             >
               Get started
             </button>
           </form>
-          <p class="roboto-light text-xs sm:text-sm">
+          <p class="roboto-light text-xs sm:text-sm mt-8">
             *No AI can replace a lawyer. This chatbot is for informational
             purposes only.
           </p>
@@ -205,11 +215,11 @@
     </section>
 
     <section id="about" class="min-h-svh">
-      <!-- Header Section -->
+      <!-- About Header Section -->
       <div
         class="bg-gradient-to-r from-[#001f54] to-[#2E8B57] text-[#F5F5F5] py-16 text-center"
       >
-        <h1 class="text-4xl font-bold merriweather-black">About Us</h1>
+        <h1 class="text-4xl font-bold merriweather-black">About LexiAssist</h1>
         <p class="mt-4 text-lg roboto-light">
           Discover How We Simplify Legal Assistance for You
         </p>
@@ -324,11 +334,17 @@
         <p class="mt-6 text-center md:text-lg">
           Click the button below to meet your personal lawyer for FREE!
         </p>
-        <button
-          class="bg-[#2E8B57] text-[#F5F5F5] text-lg md:text-xl text-center py-2 px-4 rounded-lg transition-all duration-150 hover:outline hover:outline-[#FFD700] hover:bg-[#216e42] roboto-medium-italic tracking-wide my-4"
+        <form
+          action="{% if user.is_authenticated %}{% url 'index' %}{% else %}{% url 'register' %}{% endif %}"
+          method="GET"
         >
-          Get started
-        </button>
+          {% csrf_token %}
+          <button
+            class="bg-[#2E8B57] text-[#F5F5F5] text-lg md:text-xl text-center py-2 px-4 rounded-lg transition-all duration-150 hover:outline hover:outline-[#FFD700] hover:bg-[#216e42] roboto-medium-italic tracking-wide my-4"
+          >
+            Get started
+          </button>
+        </form>
       </div>
     </section>
 
@@ -364,15 +380,14 @@
           <div>
             <h3 class="text-lg font-semibold text-white">Contact Us</h3>
             <p class="mt-4 text-sm">69 Silicon Valley, California, USA</p>
-            <p class="mt-2 text-sm">
+            <p class="mt-8 text-sm">
               Email:
               <a
-                href="mailto:arslaansiddiqui365@gmail.com"
+                href="mailto:help.legal.assistant@gmail.com"
                 class="hover:underline text-gray-400"
-                >support@legalapp.com</a
+                >support@LexiAssist.com</a
               >
             </p>
-            <p class="mt-2 text-sm">Phone: +91 98354 12457</p>
           </div>
         </div>
         <!-- Divider -->
@@ -381,14 +396,11 @@
         <div
           class="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm"
         >
-          <p>&copy; 2024 LegalApp. All rights reserved.</p>
-          <div class="mt-4 sm:mt-0">
-            <a href="/" class="hover:underline">Terms of Service</a>
-            <span class="mx-2">|</span>
-            <a href="/" class="hover:underline">Privacy Policy</a>
-          </div>
+          <p>&copy; 2024 LexiAssist. All rights reserved.</p>
+
           <!-- Social Links -->
           <div class="mt-4 sm:mt-0 flex space-x-4">
+            <p class="mt-1">Developer Socials:</p>
             <a
               href="https://www.facebook.com/share/7trMfDfExjghQk8o/?mibextid=qi2Omg"
               aria-label="Facebook"
