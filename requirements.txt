@@ -11,3 +11,4 @@ Markdown
 djangorestframework
 django-jazzmin
 einops
+gunicorn
