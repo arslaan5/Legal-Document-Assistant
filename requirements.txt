@@ -12,3 +12,4 @@ djangorestframework
 django-jazzmin
 einops
 gunicorn
+pypdf
