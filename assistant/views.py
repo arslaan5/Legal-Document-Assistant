@@ -9,7 +9,6 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -17,6 +16,8 @@ from django.shortcuts import get_object_or_404
 from .models import UserInfo
 import os
 from dotenv import load_dotenv
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 
 load_dotenv()
@@ -80,22 +81,37 @@ def send_verification_email(request, user):
         reverse('verify_email', args=[uid, token])
     )
 
-    subject = 'Verify Your Email Address'
-    message = f"""
+    # Render the HTML template with context
+    html_content = render_to_string('verification_email.html', {
+        'username': user.username,
+        'verification_url': verification_url,
+    })
+
+    # Plain-text fallback
+    text_content = f"""
     Hi {user.username},
-    
+
     Please click the link below to verify your email address and activate your account:
     {verification_url}
-    
+
     If you did not sign up for this account, you can ignore this email.
     """
+    
+    subject = 'Verify Your Email Address'
 
-    send_mail(
-        subject,
-        message,
-        os.getenv('EMAIL_HOST_USER'),  
-        [user.email],
+    # Send the email
+    subject = 'Verify Your Email Address'
+    from_email = os.getenv('EMAIL_HOST_USER')  # Ensure environment variable is set
+    recipient_list = [user.email]
+
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=text_content,
+        from_email=from_email,
+        to=recipient_list,
     )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
 
 
 def verify_email(request, uidb64, token):

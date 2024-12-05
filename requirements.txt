@@ -13,3 +13,4 @@ django-jazzmin
 einops
 gunicorn
 pypdf
+cryptography
