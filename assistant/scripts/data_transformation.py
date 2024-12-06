@@ -1,5 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from .data_ingestion import load_pdf
+from data_ingestion import load_pdf
 
 
 def get_chunks():
@@ -9,8 +9,8 @@ def get_chunks():
         if docs:
             splitter = RecursiveCharacterTextSplitter(
                 separators=['\n\n', '\n', ' '], 
-                chunk_size=600, 
-                chunk_overlap=100
+                chunk_size=500, 
+                chunk_overlap=50
             )
             chunks = splitter.split_documents(docs)
             for chunk in chunks:

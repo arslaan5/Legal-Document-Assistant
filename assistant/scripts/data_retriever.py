@@ -12,7 +12,7 @@ pc = Pinecone(api_key=pinecone_api)
 index = pc.Index("legal-documents-embeddings")
 
 
-def retrieve_relevant_chunks(query, top_k=3):
+def retrieve_relevant_chunks(query, top_k=8):
     """
     Retrieve relevant chunks from Pinecone based on a user query.
     :param query: User's query as a string.

@@ -2,7 +2,7 @@ import os
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 
 
-def load_pdf(path="legal_document_assistant//documents"):
+def load_pdf(path="documents"):
     """Load PDF files from the specified directory."""
     try:
         if os.path.exists(path):

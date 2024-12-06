@@ -1,6 +1,6 @@
 from pinecone import Pinecone
-from .data_transformation import get_chunks
-from .data_embedder import generate_embedding
+from data_transformation import get_chunks
+from data_embedder import generate_embedding
 from dotenv import load_dotenv
 import os
 from uuid import uuid4
