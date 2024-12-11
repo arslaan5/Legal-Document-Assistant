@@ -1,0 +1,32 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    {% tailwind_css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'images\favicon.png' %}"
+    />
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+
+    <div class="text-center p-6 bg-opacity-80 bg-gray-800 rounded-lg shadow-lg max-w-md mx-auto">
+        <h1 class="text-5xl font-bold mb-6">{{ error_code }} Error</h1>
+        <p class="text-lg mb-4">{{ error_message }}</p>
+
+        <div class="space-y-4">
+            <a href="{% url 'home' %}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition">Go to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>
