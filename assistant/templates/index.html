@@ -15,7 +15,7 @@
     /><link rel="icon" type="image/x-icon" href="{% static 'images\favicon.png' %}">
   </head>
   <body class="bg-gray-200">
-    <div class="max-w-full mx-auto p-2 roboto-medium relative">
+    <div class="container max-w-full mx-auto p-2 roboto-medium relative">
       <div class="flex justify-between items-center w-full mb-24">
         <!-- Back Button -->
         <header
@@ -47,7 +47,7 @@
                 <button
                   id="logoutButton"
                   type="submit"
-                  class="items-center justify-center rounded-xl bg-[#ED2939] px-3 py-2 text-sm sm:merriweather-regular text-gray-50 shadow-sm ring-2 transition-all duration-150 hover:bg-[#E60026] sm:inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2e8b57]"
+                  class="items-center justify-center rounded-xl bg-[#ED2939] px-3 py-2 text-sm sm:merriweather-regular text-gray-50 shadow-sm transition-all duration-150 hover:bg-[#E60026] sm:inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2e8b57]"
                 >
                   Logout
                 </button>
@@ -99,7 +99,7 @@
       <!-- Chat History -->
       <div
         id="chatHistory"
-        class="chat-history overflow-y-auto h-[70vh] w-11/12 sm:w-9/12 mx-auto md:max-h-[70vh] mb-8 mt-4 overscroll-auto scroll-smooth scrollbar-hide outline rounded-md outline-[#009E60] outline-2 bg-[#F5F5F5]"
+        class="chat-history overflow-y-auto h-[70vh] w-11/12 sm:w-9/12 mx-auto md:max-h-[70vh] mb-8 mt-4 overscroll-auto scroll-smooth scrollbar-hide outline rounded-md outline-[#2a3c8d] outline-2 bg-[#F5F5F5]"
       >
         {% for message in conversation %}
         <div class="messages mb-4 flex justify-between">
