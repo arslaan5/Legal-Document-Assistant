@@ -177,20 +177,3 @@ def login_view(request):
 
     return render(request, 'login.html', {'form': form})
 
-
-def error_view(request, exception=None, error_code=None):
-    context = {
-        'error_code': error_code,
-        'error_message': '',
-    }
-
-    if error_code == 400:
-        context['error_message'] = 'Bad Request. Please check your request parameters.'
-    elif error_code == 403:
-        context['error_message'] = 'Forbidden. You don’t have permission to access this resource.'
-    elif error_code == 404:
-        context['error_message'] = 'Page Not Found. The page you are looking for does not exist.'
-    elif error_code == 500:
-        context['error_message'] = 'Server Error. Something went wrong on our end.'
-
-    return render(request, 'error.html', context, status=error_code)
