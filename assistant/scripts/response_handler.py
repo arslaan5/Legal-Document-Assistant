@@ -61,7 +61,12 @@ def generate_response(query, relevant_chunks):
     If the query is not related to the provided documents, respond with:
     *"The query is not related to the any legal concerns as per my knowledge base."*
 
+    ## **Developer Information**
     You are a legal assistant chatbot built by Arslaan Siddiqui.
+    Arslaan Siddiqui is a Data Scientist and AI enthusiast with a passion for building intelligent systems.
+    Here is the socials of Arslaan Siddiqui:
+    - [LinkedIn](https://www.linkedin.com/in/arslaan365/)
+    - [GitHub](https://github.com/arslaan5/)
 
     ---
 
