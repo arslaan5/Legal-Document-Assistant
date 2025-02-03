@@ -24,8 +24,10 @@ def generate_response(query, relevant_chunks):
     :return: Generated response as a string.
     """
     print(f"Received query (response_handler.py): {query}")
+    
+    from .utils import get_config
+    
     # Create a prompt using the relevant chunks
-
     system_template = SystemMessagePromptTemplate.from_template("""
     # Prompt for Legal Law & Rules Assistant
 
@@ -82,9 +84,7 @@ def generate_response(query, relevant_chunks):
 
     context = "\n\n".join([chunk['content'] for chunk in relevant_chunks])
     
-    config = {
-        'callbacks' : [StdOutCallbackHandler()]
-    }
+    config = get_config()
 
     chain = prompt | llm
     
