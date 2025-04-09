@@ -1,12 +1,11 @@
-{% load static tailwind_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LexiAssist</title>
-    {% tailwind_css %}
-    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dist/main.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -107,7 +106,7 @@
           <!-- User Query -->
           <div
             id="userDiv"
-            class="text-xs md:text-lg text-[#0A0A0A] p-2 sm:p-4 rounded-lg ml-auto max-w-xl sm:max-w-3xl"
+            class="text-xs md:text-base text-[#111111] p-2 sm:p-4 rounded-lg ml-auto max-w-xl sm:max-w-3xl"
           >
             <strong>User:</strong> {{ message.content }}
           </div>
@@ -115,7 +114,7 @@
           <!-- Assistant Response -->
           <div
             id="assistantDiv"
-            class="text-xs md:text-base prose space-y-2 p-2 sm:p-4 rounded-lg text-[#001F54] my-2 ml-0 max-w-2xl sm:max-w-3xl"
+            class="text-xs md:text-base prose space-y-2 p-2 sm:p-4 rounded-lg text-[#111111] my-2 ml-0 max-w-2xl sm:max-w-3xl"
           >
             <strong>Assistant:</strong> {{ message.content|safe }}
           </div>
@@ -146,7 +145,7 @@
             <input
               id="queryInput"
               name="query"
-              class="w-screen h-fit sm:w-11/12 rounded-lg mx-auto px-2 text-sm bg-[#F5F5F5] placeholder-gray-400 transition-colors duration-300 focus:outline-none focus:ring-0 focus:shadow-none border-1 border-[#001F54] focus:border-2 focus:border-[#001F54]"
+              class="w-screen py-2 sm:w-11/12 rounded-lg mx-auto px-2 text-sm bg-[#F5F5F5] placeholder-gray-400 border-1 border-[#1560BD] focus:border-2 focus:border-[#1560BD] transition-all duration-300"
               placeholder="Ask a legal question..."
               required
             ></input>

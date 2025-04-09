@@ -40,13 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'assistant',
-    'tailwind',
-    'theme',
     'django_browser_reload',
     'rest_framework',
 ]
-
-TAILWIND_APP_NAME = 'theme'
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -155,7 +151,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "theme"]
+STATICFILES_DIRS = [BASE_DIR / "assistant/static/", BASE_DIR / "theme/"]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # for collected static files
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
