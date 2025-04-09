@@ -36,8 +36,12 @@ def query_view(request):
             response_html = error_message
         else:
             try:
-                # Generate a response
-                response_html = generate_assistant_response(request, user_query)
+                # Generate a response with session ID for Redis memory
+                response_html = generate_assistant_response(
+                    request, 
+                    user_query,
+                    session_id=str(request.session.session_key)
+                )
             except Exception as e:
                 logger.error(f"Error generating response: {e}")
                 response_html = "Sorry, an error occurred while generating a response."

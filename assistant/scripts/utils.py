@@ -29,14 +29,14 @@ def validate_query(user_query):
     return True, None
 
 
-def generate_assistant_response(request, user_query):
+def generate_assistant_response(request, user_query, session_id=None):
     """Generate a response using LangChain and relevant chunks from Pinecone."""
     from .response_handler import generate_response
     relevant_chunks = retrieve_relevant_chunks(user_query)
     if not relevant_chunks:
         return "Sorry, I could only answer your legal queries."
 
-    response = generate_response(user_query, relevant_chunks)
+    response = generate_response(user_query, relevant_chunks, session_id=session_id)
 
     # Handle string responses
     if isinstance(response, str):

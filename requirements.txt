@@ -15,3 +15,5 @@ pypdf
 cryptography
 psycopg2-binary
 whitenoise
+redis
+langchain-redis

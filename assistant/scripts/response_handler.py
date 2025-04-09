@@ -1,9 +1,13 @@
-from langchain_groq import ChatGroq
-from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate
-from dotenv import load_dotenv
 import os
-from .data_retriever import retrieve_relevant_chunks
+from dotenv import load_dotenv
+
+from langchain_groq import ChatGroq
+from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.callbacks import StdOutCallbackHandler
+from langchain_community.chat_message_histories import RedisChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+
+from .data_retriever import retrieve_relevant_chunks
 
 
 load_dotenv()
@@ -16,18 +20,23 @@ llm = ChatGroq(
     callbacks=[StdOutCallbackHandler()]
 )
 
-def generate_response(query, relevant_chunks):
+def get_redis_history(session_id: str) -> RedisChatMessageHistory:
+    return RedisChatMessageHistory(
+        session_id=session_id,
+        url=os.getenv("REDIS_URL"),
+    )
+
+def generate_response(query, relevant_chunks, session_id=None):
     """
-    Generate a response to the query using the relevant chunks.
+    Generate a response to the query using the relevant chunks and conversation history.
     :param query: The user query.
     :param relevant_chunks: List of relevant chunks of text.
+    :param session_id: Optional session ID for conversation history.
     :return: Generated response as a string.
     """
     print(f"Received query (response_handler.py): {query}")
     
-    from .utils import get_config
-    
-    # Create a prompt using the relevant chunks
+    # Create a prompt using the relevant chunks and history
     system_template = SystemMessagePromptTemplate.from_template("""
     # Prompt for Legal Law & Rules Assistant
 
@@ -78,23 +87,35 @@ def generate_response(query, relevant_chunks):
 
     prompt = ChatPromptTemplate.from_messages([
         system_template,
+        MessagesPlaceholder(variable_name="history"),
         ("human", "{query}")
-        ]
-    )
+    ])
 
     context = "\n\n".join([chunk['content'] for chunk in relevant_chunks])
-    
-    config = get_config()
 
     chain = prompt | llm
     
-    # Generate the response
-    response = chain.invoke({"query":query, "context":context}, config=config)
+    if session_id:
+        # Use chain with message history
+        chain_with_history = RunnableWithMessageHistory(
+            chain,
+            get_redis_history,
+            input_messages_key="query",
+            history_messages_key="history",
+        )
+        response = chain_with_history.invoke(
+            {"query": query, "context": context},
+            config={"configurable": {"session_id": session_id}, "callbacks": [StdOutCallbackHandler()]}
+        )
+    else:
+        # Fallback to regular chain if no session ID provided
+        response = chain.invoke({"query": query, "context": context}, config={"callbacks": [StdOutCallbackHandler()]})
+    
     return response.content
 
 
 if __name__ == "__main__":
     query = "What is the legal procedure for filing a family court case?"
     relevant_chunks = retrieve_relevant_chunks(query)
-    result = generate_response(query, relevant_chunks)
+    result = generate_response(query, relevant_chunks, session_id="test_session")
     print(result)
