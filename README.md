@@ -1,6 +1,6 @@
 # LexiAssist (Legal Document Assistant)
 
-Welcome to the Legal Document Assistant, a RAG-based AI chatbot designed to solve users' legal queries efficiently. It is trained on multiple PDFs to provide accurate and relevant answers to legal questions.
+Welcome to the LexiAssist, a RAG-based AI chatbot designed to solve users' legal queries efficiently. It is trained on multiple PDFs to provide accurate and relevant answers to legal questions.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ Welcome to the Legal Document Assistant, a RAG-based AI chatbot designed to solv
 
 ## 1. Project Overview
 
-The Legal Document Assistant is an AI chatbot built to help users with legal queries. It uses Retrieval-Augmented Generation (RAG) to search through multiple PDFs and find the most relevant information. The application converts user queries into vector embeddings, searches these embeddings in the Pinecone vector database, and processes the retrieved information to provide structured responses via a language model (LLM).
+The LexiAssist is an AI chatbot built to help users with legal queries. It uses Retrieval-Augmented Generation (RAG) to search through multiple PDFs and find the most relevant information. The application converts user queries into vector embeddings, searches these embeddings in the Pinecone vector database, and processes the retrieved information to provide structured responses via a language model (LLM).
 
 ## 2. Key Features
 
@@ -42,7 +42,7 @@ The Legal Document Assistant is an AI chatbot built to help users with legal que
 
 ## 4. Architecture
 
-The Legal Document Assistant follows this basic flow:
+The LexiAssist follows this basic flow:
 1. The user enters a query on the frontend.
 2. The query is received by the backend and converted into vector embeddings.
 3. These embeddings are then searched in the Pinecone vector database using similarity search.
@@ -82,7 +82,7 @@ Common issues include delayed responses due to server issues, complex legal term
 
 ## 10. Licensing
 
-The Legal Document Assistant is released under the Apache 2.0 license.
+The LexiAssist is released under the Apache 2.0 license.
 
 ## 11. Deployment
 
